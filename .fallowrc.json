@@ -3,7 +3,8 @@
   "entry": [
     "src/index.{ts,tsx,js,jsx}",
       "src/main.{ts,tsx,js,jsx}",
-      "setupTests.ts"
+      "setupTests.ts",
+      "eslint.config.mjs"
   ],
   "workspaces": {
     "packages": [
