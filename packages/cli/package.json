@@ -35,6 +35,7 @@
     "@effect/cli": "latest",
     "@effect/platform": "latest",
     "@effect/platform-node": "latest",
+    "@effect/vitest": "^0.29.0",
     "@template/domain": "workspace:^",
     "effect": "latest"
   },
