@@ -1,0 +1,51 @@
+{
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.8.0+sha512.c1f5e7c4cb241c8f174b743851d82f42b802324afc8b0f116b96adb15aa06664948dde36960a3ba1079ba5b4b29dd0140135b94b5b5f5263592249d68e555f26",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "clean": "node scripts/clean.mjs",
+    "codegen": "pnpm --recursive --parallel run codegen",
+    "build": "tsc -b tsconfig.build.json && pnpm --recursive --parallel run build",
+    "check": "tsc -b tsconfig.json",
+    "check-recursive": "pnpm --recursive exec tsc -b tsconfig.json",
+    "lint": "eslint \"**/{src,test,examples,scripts,dtslint}/**/*.{ts,mjs}\"",
+    "lint-fix": "pnpm lint --fix",
+    "test": "vitest",
+    "coverage": "vitest --coverage",
+    "changeset-version": "changeset version && node scripts/version.mjs",
+    "changeset-publish": "pnpm build && TEST_DIST= pnpm vitest && changeset publish"
+  },
+  "devDependencies": {
+    "@babel/cli": "^8.0.1",
+    "@babel/core": "^8.0.1",
+    "@babel/plugin-transform-export-namespace-from": "^8.0.1",
+    "@babel/plugin-transform-modules-commonjs": "^8.0.1",
+    "@changesets/changelog-github": "^0.7.0",
+    "@changesets/cli": "^2.31.0",
+    "@effect/build-utils": "^0.8.9",
+    "@effect/eslint-plugin": "^0.3.2",
+    "@effect/language-service": "latest",
+    "@effect/vitest": "latest",
+    "@eslint/compat": "2.1.0",
+    "@eslint/eslintrc": "3.3.5",
+    "@eslint/js": "10.0.1",
+    "@types/node": "^26.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.61.1",
+    "@typescript-eslint/parser": "^8.61.1",
+    "babel-plugin-annotate-pure-calls": "^0.5.0",
+    "effect": "^3.21.4",
+    "eslint": "^10.5.0",
+    "eslint-import-resolver-typescript": "^4.4.5",
+    "eslint-plugin-codegen": "^0.34.1",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-simple-import-sort": "^13.0.0",
+    "eslint-plugin-sort-destructure-keys": "^3.0.0",
+    "glob": "^13.0.6",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
+  }
+}
