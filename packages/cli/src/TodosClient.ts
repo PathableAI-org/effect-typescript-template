@@ -1,5 +1,6 @@
-import { HttpApiClient } from "@effect/platform"
 import type { TodoId } from "@template/domain/TodosApi"
+
+import { HttpApiClient } from "@effect/platform"
 import { TodosApi } from "@template/domain/TodosApi"
 import { Effect } from "effect"
 
@@ -35,9 +36,9 @@ export class TodosClient extends Effect.Service<TodosClient>()("cli/TodosClient"
     }
 
     return {
+      complete,
       create,
       list,
-      complete,
       remove
     } as const
   })

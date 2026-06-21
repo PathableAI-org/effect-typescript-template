@@ -19,7 +19,7 @@ export class TodosRepository extends Effect.Service<TodosRepository>()("api/Todo
     function create(text: string): Effect.Effect<Todo> {
       return Ref.modify(todos, (map) => {
         const id = TodoId.make(HashMap.reduce(map, -1, (max, todo) => todo.id > max ? todo.id : max) + 1)
-        const todo = new Todo({ id, text, done: false })
+        const todo = new Todo({ done: false, id, text })
         return [todo, HashMap.set(map, id, todo)]
       })
     }
@@ -38,10 +38,10 @@ export class TodosRepository extends Effect.Service<TodosRepository>()("api/Todo
     }
 
     return {
+      complete,
+      create,
       getAll,
       getById,
-      create,
-      complete,
       remove
     } as const
   })

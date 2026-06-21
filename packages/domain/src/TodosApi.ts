@@ -9,9 +9,9 @@ export const TodoIdFromString = Schema.NumberFromString.pipe(
 )
 
 export class Todo extends Schema.Class<Todo>("Todo")({
+  done: Schema.Boolean,
   id: TodoId,
-  text: Schema.NonEmptyTrimmedString,
-  done: Schema.Boolean
+  text: Schema.NonEmptyTrimmedString
 }) {}
 
 export class TodoNotFound extends Schema.TaggedError<TodoNotFound>()("TodoNotFound", {
