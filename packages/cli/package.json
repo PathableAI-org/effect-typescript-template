@@ -2,7 +2,7 @@
   "name": "@template/cli",
   "version": "0.0.0",
   "type": "module",
-  "license": "MIT",
+  "license": "Unlicense",
   "description": "The CLI template",
   "repository": {
     "type": "git",
