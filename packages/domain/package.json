@@ -6,7 +6,7 @@
   "description": "The domain template",
   "repository": {
     "type": "git",
-    "url": "<PLACEHOLDER>",
+    "url": "https://github.com/PathableAI-org/effect-typescript-template.git",
     "directory": "packages/domain"
   },
   "publishConfig": {
@@ -24,8 +24,8 @@
     "coverage": "vitest --coverage"
   },
   "dependencies": {
-    "@effect/platform": "latest",
-    "effect": "latest"
+    "@effect/platform": "^0.96.2",
+    "effect": "^3.21.4"
   },
   "effect": {
     "generateExports": {

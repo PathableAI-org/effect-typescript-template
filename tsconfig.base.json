@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "ES2022",
       "module": "ESNext",
       "composite": true,
@@ -11,6 +12,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
+    "ignoreDeprecations": "6.0",
     "allowJs": true,
     "isolatedModules": true,
     "declaration": true,
@@ -21,6 +23,14 @@
       {
         "name": "@effect/language-service"
       }
-    ]
+    ],
+    "paths": {
+      "@template/cli": ["packages/cli/src/index.ts"],
+      "@template/cli/*": ["packages/cli/src/*"],
+      "@template/domain": ["packages/domain/src/index.ts"],
+      "@template/domain/*": ["packages/domain/src/*"],
+      "@template/server": ["packages/server/src/index.ts"],
+      "@template/server/*": ["packages/server/src/*"]
+    }
   }
 }
