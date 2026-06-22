@@ -6,7 +6,7 @@ The server will start on `http://localhost:3000` by default.
 
 ## TODOs API Endpoints
 
-The server provides few endpoints
+The server provides a few endpoints
 
 ### Create a new TODO
 

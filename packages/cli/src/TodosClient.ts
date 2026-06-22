@@ -13,17 +13,17 @@ export class TodosClient extends Effect.Service<TodosClient>()("cli/TodosClient"
 
     function create(text: string) {
       return client.todos.createTodo({ payload: { text } }).pipe(
-        Effect.flatMap((todo) => Effect.logInfo("Created todo: ", todo))
+        Effect.flatMap((todo) => Effect.logInfo(`Created todo with id: ${todo.id}`))
       )
     }
 
     const list = client.todos.getAllTodos().pipe(
-      Effect.flatMap((todos) => Effect.logInfo(todos))
+      Effect.flatMap((todos) => Effect.logInfo(`Listed todos, count: ${todos.length}`))
     )
 
     function complete(id: TodoId) {
       return client.todos.completeTodo({ path: { id } }).pipe(
-        Effect.flatMap((todo) => Effect.logInfo("Marked todo completed: ", todo)),
+        Effect.flatMap((todo) => Effect.logInfo(`Marked todo as completed, id: ${todo.id}`)),
         Effect.catchTag("TodoNotFound", () => Effect.logError(`Failed to find todo with id: ${id}`))
       )
     }

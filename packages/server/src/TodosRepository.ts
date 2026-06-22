@@ -12,7 +12,7 @@ export class TodosRepository extends Effect.Service<TodosRepository>()("api/Todo
     function getById(id: TodoId): Effect.Effect<Todo, TodoNotFound> {
       return Ref.get(todos).pipe(
         Effect.flatMap(HashMap.get(id)),
-        Effect.catchTag("NoSuchElementException", () => new TodoNotFound({ id }))
+        Effect.catchTag("NoSuchElementException", () => Effect.fail(new TodoNotFound({ id })))
       )
     }
 
