@@ -1,0 +1,45 @@
+import type { TodoId } from "@template/domain/TodosApi"
+
+import { HttpApiClient } from "@effect/platform"
+import { TodosApi } from "@template/domain/TodosApi"
+import { Effect } from "effect"
+
+export class TodosClient extends Effect.Service<TodosClient>()("cli/TodosClient", {
+  accessors: true,
+  effect: Effect.gen(function*() {
+    const client = yield* HttpApiClient.make(TodosApi, {
+      baseUrl: "http://localhost:3000"
+    })
+
+    function create(text: string) {
+      return client.todos.createTodo({ payload: { text } }).pipe(
+        Effect.flatMap((todo) => Effect.logInfo(`Created todo with id: ${todo.id}`))
+      )
+    }
+
+    const list = client.todos.getAllTodos().pipe(
+      Effect.flatMap((todos) => Effect.logInfo(`Listed todos, count: ${todos.length}`))
+    )
+
+    function complete(id: TodoId) {
+      return client.todos.completeTodo({ path: { id } }).pipe(
+        Effect.flatMap((todo) => Effect.logInfo(`Marked todo as completed, id: ${todo.id}`)),
+        Effect.catchTag("TodoNotFound", () => Effect.logError(`Failed to find todo with id: ${id}`))
+      )
+    }
+
+    function remove(id: TodoId) {
+      return client.todos.removeTodo({ path: { id } }).pipe(
+        Effect.flatMap(() => Effect.logInfo(`Deleted todo with id: ${id}`)),
+        Effect.catchTag("TodoNotFound", () => Effect.logError(`Failed to find todo with id: ${id}`))
+      )
+    }
+
+    return {
+      complete,
+      create,
+      list,
+      remove
+    } as const
+  })
+}) {}
