@@ -35,7 +35,7 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Run fallow dead code check
-        run: pnpm exec fallow audit --base "${{ github.event.pull_request.base.ref || 'main' }}" --format json --quiet
+        run: pnpm exec fallow audit --base "origin/${{ github.event.pull_request.base.ref || 'main' }}" --format json --quiet
 
   duplication:
     name: Duplication check
