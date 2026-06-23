@@ -4,6 +4,12 @@ import { Effect } from "effect"
 
 import { TodosRepository } from "../src/TodosRepository.js"
 
+const expectTodoNotFound = <A>(effect: Effect.Effect<A, TodoNotFound>) =>
+  effect.pipe(
+    Effect.flip,
+    Effect.tap((error) => Effect.sync(() => expect(error).toBeInstanceOf(TodoNotFound)))
+  )
+
 describe("TodosRepository", () => {
   describe("create", () => {
     it.effect("creates a todo and returns it", () =>
@@ -30,8 +36,7 @@ describe("TodosRepository", () => {
       Effect.gen(function*() {
         const repo = yield* TodosRepository
         const missingId = TodoId.make(9999)
-        const result = yield* repo.getById(missingId).pipe(Effect.flip)
-        expect(result).toBeInstanceOf(TodoNotFound)
+        const result = yield* expectTodoNotFound(repo.getById(missingId))
         expect(result.id).toBe(missingId)
       }).pipe(Effect.provide(TodosRepository.Default)))
   })
@@ -49,9 +54,7 @@ describe("TodosRepository", () => {
     it.effect("fails with TodoNotFound for a missing id", () =>
       Effect.gen(function*() {
         const repo = yield* TodosRepository
-        const missingId = TodoId.make(9999)
-        const result = yield* repo.complete(missingId).pipe(Effect.flip)
-        expect(result).toBeInstanceOf(TodoNotFound)
+        yield* expectTodoNotFound(repo.complete(TodoId.make(9999)))
       }).pipe(Effect.provide(TodosRepository.Default)))
   })
 
@@ -68,9 +71,7 @@ describe("TodosRepository", () => {
     it.effect("fails with TodoNotFound for a missing id", () =>
       Effect.gen(function*() {
         const repo = yield* TodosRepository
-        const missingId = TodoId.make(9999)
-        const result = yield* repo.remove(missingId).pipe(Effect.flip)
-        expect(result).toBeInstanceOf(TodoNotFound)
+        yield* expectTodoNotFound(repo.remove(TodoId.make(9999)))
       }).pipe(Effect.provide(TodosRepository.Default)))
   })
 

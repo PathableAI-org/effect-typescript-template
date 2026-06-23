@@ -1,5 +1,7 @@
 packages:
   - packages/*
+verifyDepsBeforeRun: false
+confirmModulesPurge: false
 allowBuilds:
   '@parcel/watcher': true
   esbuild: true

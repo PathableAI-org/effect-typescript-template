@@ -5,17 +5,20 @@ const dirname = import.meta.dirname
 
 const alias = (name: string) => {
   const target = process.env.TEST_DIST !== undefined ? "dist/dist/esm" : "src"
-  return ({
-    [`@template/${name}/test/`]: `${path.join(dirname, "packages", name, "test")}/`,
-    [`@template/${name}/`]: `${path.join(dirname, "packages", name, target)}/`,
-    [`@template/${name}`]: path.join(dirname, "packages", name, target)
-  })
-}
-
-const aliases = {
-  ...alias("cli"),
-  ...alias("domain"),
-  ...alias("server")
+  return [
+    {
+      find: `@template/${name}/test`,
+      replacement: path.join(dirname, "packages", name, "test")
+    },
+    {
+      find: new RegExp(`^@template/${name}/(.+)$`),
+      replacement: path.join(dirname, "packages", name, `${target}/$1`)
+    },
+    {
+      find: `@template/${name}`,
+      replacement: path.join(dirname, "packages", name, target)
+    }
+  ]
 }
 
 // This is a workaround, see https://github.com/vitest-dev/vitest/issues/4744
@@ -27,7 +30,11 @@ const config: UserConfig = {
     exclude: ["bun:sqlite"]
   },
   resolve: {
-    alias: aliases
+    alias: [
+      ...alias("cli"),
+      ...alias("domain"),
+      ...alias("server")
+    ]
   },
   test: {
     setupFiles: [path.join(dirname, "setupTests.ts")],

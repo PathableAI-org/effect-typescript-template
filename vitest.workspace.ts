@@ -8,7 +8,7 @@ const project = (
   config: UserWorkspaceConfig["test"] & { name: `${string}|${string}` },
   root = config.root ?? path.join(dirname, `packages/${config.name.split("|").at(0)}`)
 ) => ({
-  extends: "vitest.shared.ts",
+  extends: path.join(__dirname, "vitest.shared.ts"),
   test: { root, ...config }
 })
 
@@ -16,5 +16,7 @@ export default defineWorkspace([
   // Add specialized configuration for some packages.
   // project({ name: "my-package|browser", environment: "happy-dom" }),
   // Add the default configuration for all packages.
-  "packages/*"
+  project({ name: "cli|node" }),
+  project({ name: "domain|node" }),
+  project({ name: "server|node" })
 ])
