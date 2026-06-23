@@ -19,4 +19,21 @@ jobs:
         run: pnpm build
       - name: Create snapshot
         id: snapshot
-        run: pnpx pkg-pr-new@0.0.24 publish --pnpm --comment=off ./packages/*
+        run: |
+          set +e
+          output="$(pnpx pkg-pr-new@0.0.24 publish --pnpm --comment=off ./packages/* 2>&1)"
+          status=$?
+          set -e
+
+          echo "$output"
+
+          if [ "$status" -eq 0 ]; then
+            exit 0
+          fi
+
+          if [[ "$output" == *"The app https://github.com/apps/pkg-pr-new is not installed"* ]]; then
+            echo "::warning::Skipping snapshot publish because the pkg.pr.new GitHub App is not installed for this repository."
+            exit 0
+          fi
+
+          exit "$status"

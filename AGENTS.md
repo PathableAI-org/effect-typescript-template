@@ -107,7 +107,7 @@ Run the complete validation suite before requesting review:
     pnpm lint
     pnpm test
     pnpm build
-    pnpm exec fallow audit --format json --quiet
+    pnpm exec fallow audit --base main --format json --quiet
 
 After code generation, confirm that generated source changes are committed.
 
@@ -148,7 +148,7 @@ The template's defaults may be reused in sensitive applications.
 
 Use Fallow as a repository-analysis aid, not as a substitute for understanding the code.
 
-- Run `fallow audit --format json --quiet` before committing AI-generated changes.
+- Run `fallow audit --base main --format json --quiet` before committing AI-generated changes.
 - Use `fallow dead-code --format json --quiet` before removing unused code.
 - Use `fallow dupes --format json --quiet` before consolidating duplication.
 - Use `fallow health --format json --quiet` to identify architectural hotspots.

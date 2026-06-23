@@ -75,7 +75,7 @@ pnpm check
 pnpm lint
 pnpm test
 pnpm build
-pnpm exec fallow audit --format json --quiet
+pnpm exec fallow audit --base main --format json --quiet
 ```
 
 ## Adapting The Template
