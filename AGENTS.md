@@ -194,3 +194,13 @@ Before declaring work complete:
 - no sensitive content is logged;
 - typecheck, lint, tests, build, and Fallow checks pass;
 - publishable changes include an appropriate Changeset.
+
+## Cursor Cloud specific instructions
+
+Standard commands are in `## Commands` above; install/lint/test/build run unchanged. Notes below are the non-obvious runtime gotchas.
+
+- Toolchain: pnpm (`11.8.0`, pinned via `packageManager`) is preinstalled and the repo builds, tests, and runs on the preinstalled Node (22.x). CI pins Node `24.5.0` (`.github/actions/setup/action.yml`); no version switch is needed for local dev.
+- End-to-end flow needs two pieces: start the server first with `pnpm --filter @template/server dev` (HTTP API on `http://localhost:3000`), then drive it with the CLI. The CLI client base URL is hardcoded to `http://localhost:3000` (`packages/cli/src/TodosClient.ts`), so the server must be up.
+- Running the CLI for one-shot commands: do NOT use `pnpm --filter @template/cli dev` for scripted/single commands — its `dev` script is `tsx --watch`, which never exits. Run one-shot commands with `pnpm --filter @template/cli exec tsx src/bin.ts <add|list|done|remove> ...` (or the built binary). Use `dev` only for an interactive watch loop.
+- The CLI logs only operation names/counts, not record contents (a deliberate logging policy). To inspect actual todo data, query the API directly, e.g. `curl http://localhost:3000/todos`.
+- Server state is in-memory (`TodosRepository`); restarting the server clears all todos. No database or external services are required.
